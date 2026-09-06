@@ -4,7 +4,12 @@ import tscircuitPackageJson from "tscircuit/package.json"
 
 const tscircuitPackageJsonDeps = Object.keys(tscircuitPackageJson.dependencies)
 
-const ALLOW_BUNDLING = ["@tscircuit/runframe"]
+const ALLOW_BUNDLING = [
+  "@tscircuit/runframe",
+  "circuit-json-to-bom-csv",
+  "circuit-json-to-pnp-csv",
+  "circuit-json-to-kicad",
+]
 
 const result = await Bun.build({
   entrypoints: [

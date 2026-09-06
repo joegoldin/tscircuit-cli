@@ -3,6 +3,8 @@ import path from "node:path"
 import type { PlatformConfig } from "@tscircuit/props"
 import {
   CircuitJsonToKicadPcbConverter,
+  CircuitJsonToKicadProConverter,
+  CircuitJsonToKicadDruConverter,
   CircuitJsonToKicadSchConverter,
   resolveAndLoadKicad3dModelFiles,
 } from "circuit-json-to-kicad"
@@ -20,36 +22,10 @@ export type GeneratedKicadProject = {
   pcbContent: string
   schContent: string
   proContent: string
+  druContent: string
   outputDir: string
   projectName: string
 }
-
-const createKicadProContent = ({
-  projectName,
-  schematicFileName,
-  boardFileName,
-}: {
-  projectName: string
-  schematicFileName: string
-  boardFileName: string
-}) =>
-  JSON.stringify(
-    {
-      head: {
-        version: 1,
-        generator: "tsci",
-      },
-      project: {
-        name: projectName,
-        files: {
-          schematic: schematicFileName,
-          board: boardFileName,
-        },
-      },
-    },
-    null,
-    2,
-  )
 
 export const generateKicadProject = async ({
   circuitJson,
@@ -77,17 +53,23 @@ export const generateKicadProject = async ({
   const boardFileName = `${sanitizedProjectName}.kicad_pcb`
   const projectFileName = `${sanitizedProjectName}.kicad_pro`
 
-  const proContent = createKicadProContent({
+  const proConverter = new CircuitJsonToKicadProConverter(circuitJson as AnyCircuitElement[], {
     projectName: sanitizedProjectName,
-    schematicFileName,
-    boardFileName,
+    schematicFilename: schematicFileName,
+    pcbFilename: boardFileName,
   })
+  proConverter.runUntilFinished()
+  const proContent = proConverter.getOutputString()
+  const druConverter = new CircuitJsonToKicadDruConverter(circuitJson as AnyCircuitElement[])
+  druConverter.runUntilFinished()
+  const druContent = druConverter.getOutputString()
 
   if (writeFiles) {
     fs.mkdirSync(outputDir, { recursive: true })
     fs.writeFileSync(path.join(outputDir, schematicFileName), schContent)
     fs.writeFileSync(path.join(outputDir, boardFileName), pcbContent)
     fs.writeFileSync(path.join(outputDir, projectFileName), proContent)
+    fs.writeFileSync(path.join(outputDir, `${sanitizedProjectName}.kicad_dru`), druContent)
 
     await resolveAndLoadKicad3dModelFiles({
       model3dSourcePaths: pcbConverter.getModel3dSourcePaths(),
@@ -109,6 +91,7 @@ export const generateKicadProject = async ({
     pcbContent,
     schContent,
     proContent,
+    druContent,
     outputDir,
     projectName: sanitizedProjectName,
   }

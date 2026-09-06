@@ -9,6 +9,7 @@ import { getPlatformConfigWithCliDefaults } from "../../lib/shared/get-platform-
 import { mergePlatformConfigs } from "../../lib/shared/platform-config-utils"
 import { registerStaticAssetLoaders } from "../../lib/shared/register-static-asset-loaders"
 import { filterDiagnosticsByDrcCategory } from "./drc-diagnostic-filter"
+import { getFatalAutoroutingError } from "./get-fatal-autorouting-error"
 import { DEFAULT_IMAGE_FORMAT_SELECTION } from "./image-format-selection"
 import {
   writeGlbFromCircuitJson,
@@ -98,6 +99,7 @@ export const handleBuildFile = async (
     )
 
     const diagnostics = analyzeCircuitJson(circuitJson)
+    const isFatalError = getFatalAutoroutingError(diagnostics.errors)
     const filteredDiagnostics = filterDiagnosticsByDrcCategory({
       errors: diagnostics.errors,
       warnings: diagnostics.warnings,
@@ -117,6 +119,23 @@ export const handleBuildFile = async (
         const msg = err.message || JSON.stringify(err)
         errors.push(msg)
         workerLog(`Error: ${msg}`)
+      }
+    }
+
+    if (isFatalError) {
+      return {
+        message_type: "build_completed",
+        file_path: filePath,
+        output_path: outputPath,
+        circuit_json_path: outputPath,
+        ok: false,
+        hasErrors: true,
+        isFatalError,
+        ignoredDrcCount: filteredDiagnostics.ignoredCount,
+        ignoredDrcByCategory: filteredDiagnostics.ignoredByCategory,
+        errors,
+        warnings,
+        durationMs: options?.profile ? performance.now() - startedAt : undefined,
       }
     }
 

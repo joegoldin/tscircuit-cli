@@ -11,6 +11,7 @@ import { convertCircuitJsonToGerberFiles } from "circuit-json-to-gerber"
 import { convertCircuitJsonToGltf } from "circuit-json-to-gltf"
 import {
   CircuitJsonToKicadPcbConverter,
+  CircuitJsonToKicadDruConverter,
   CircuitJsonToKicadProConverter,
   CircuitJsonToKicadSchConverter,
   resolveAndLoadKicad3dModelFiles,
@@ -101,6 +102,11 @@ const unwrapSimpleRouteJson = (value: unknown) => {
   return value
 }
 
+type ExportOutput = {
+  outputDestination: string
+  outputContent: string | Buffer
+}
+
 type ExportOptions = {
   filePath: string
   format: ExportFormat
@@ -113,6 +119,7 @@ type ExportOptions = {
   onSuccess: (data: {
     outputDestination: string
     outputContent: string | Buffer
+    additionalOutputs?: ExportOutput[]
   }) => void
 }
 
@@ -139,6 +146,7 @@ export const exportSnippet = async ({
     outputPath && path.isAbsolute(outputPath)
       ? outputPath
       : path.join(projectDir, outputPath ?? outputFileName)
+  const additionalOutputs: ExportOutput[] = []
 
   // Handle kicad-library separately - it doesn't need generateCircuitJson
   if (format === "kicad-library") {
@@ -263,9 +271,26 @@ export const exportSnippet = async ({
       break
     }
     case "kicad_pcb": {
+      if (path.extname(outputDestination) !== ".kicad_pcb") {
+        onError("KiCad PCB output must end in .kicad_pcb so its project and rules share the board basename")
+        return onExit(1)
+      }
       const converter = new CircuitJsonToKicadPcbConverter(circuitJson)
       converter.runUntilFinished()
       outputContent = converter.getOutputString()
+      const basename = path.basename(outputDestination, path.extname(outputDestination))
+      const sidecarPath = path.join(path.dirname(outputDestination), basename)
+      const proConverter = new CircuitJsonToKicadProConverter(circuitJson, {
+        projectName: basename,
+        pcbFilename: path.basename(outputDestination),
+      })
+      proConverter.runUntilFinished()
+      const druConverter = new CircuitJsonToKicadDruConverter(circuitJson)
+      druConverter.runUntilFinished()
+      additionalOutputs.push(
+        { outputDestination: `${sidecarPath}.kicad_pro`, outputContent: proConverter.getOutputString() },
+        { outputDestination: `${sidecarPath}.kicad_dru`, outputContent: druConverter.getOutputString() },
+      )
       break
     }
     case "kicad_zip": {
@@ -282,11 +307,14 @@ export const exportSnippet = async ({
         pcbFilename: `${outputBaseName}.kicad_pcb`,
       })
       proConverter.runUntilFinished()
+      const druConverter = new CircuitJsonToKicadDruConverter(circuitJson)
+      druConverter.runUntilFinished()
 
       const zip = new JSZip()
       zip.file(`${outputBaseName}.kicad_sch`, schConverter.getOutputString())
       zip.file(`${outputBaseName}.kicad_pcb`, pcbConverter.getOutputString())
       zip.file(`${outputBaseName}.kicad_pro`, proConverter.getOutputString())
+      zip.file(`${outputBaseName}.kicad_dru`, druConverter.getOutputString())
 
       await resolveAndLoadKicad3dModelFiles({
         model3dSourcePaths: pcbConverter.getModel3dSourcePaths(),
@@ -347,15 +375,20 @@ export const exportSnippet = async ({
       outputContent = JSON.stringify(circuitJson, null, 2)
   }
   if (writeFile) {
-    await writeFileAsync(outputDestination, outputContent).catch((err) => {
+    try {
+      for (const output of [...additionalOutputs, { outputDestination, outputContent }]) {
+        await writeFileAsync(output.outputDestination, output.outputContent)
+      }
+    } catch (err) {
       onError(`Error writing file: ${err}`)
       return onExit(1)
-    })
+    }
   }
 
   onSuccess({
     outputDestination,
     outputContent,
+    ...(additionalOutputs.length > 0 ? { additionalOutputs } : {}),
   })
 
   onExit(0)

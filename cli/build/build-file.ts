@@ -13,6 +13,7 @@ import {
   type DrcIgnoreOptions,
   filterDiagnosticsByDrcCategory,
 } from "./drc-diagnostic-filter"
+import { getFatalAutoroutingError } from "./get-fatal-autorouting-error"
 
 export type BuildFileOutcome = {
   ok: boolean
@@ -75,6 +76,7 @@ export const buildFile = async (
     console.log(`Circuit JSON written to ${path.relative(projectDir, output)}`)
 
     const diagnostics = analyzeCircuitJson(circuitJson)
+    const isFatalError = getFatalAutoroutingError(diagnostics.errors)
     const filteredDiagnostics = filterDiagnosticsByDrcCategory({
       errors: diagnostics.errors,
       warnings: diagnostics.warnings,
@@ -99,10 +101,12 @@ export const buildFile = async (
     }
 
     return {
-      ok: true,
+      ok: !isFatalError,
       circuitJson,
       hasErrors:
-        filteredDiagnostics.errors.length > 0 && !options?.ignoreErrors,
+        Boolean(isFatalError) ||
+        (filteredDiagnostics.errors.length > 0 && !options?.ignoreErrors),
+      isFatalError,
       ignoredDrcCount: filteredDiagnostics.ignoredCount,
       ignoredDrcByCategory: filteredDiagnostics.ignoredByCategory,
     }
