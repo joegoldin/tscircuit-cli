@@ -1,6 +1,5 @@
 import * as fs from "node:fs"
 import * as http from "node:http"
-import { createRequire } from "node:module"
 import * as path from "node:path"
 // @ts-ignore
 import runFrameStandaloneBundleContent from "@tscircuit/runframe/standalone" with {
@@ -13,30 +12,13 @@ import pkg from "../../package.json"
 import winterspecBundle from "@tscircuit/file-server/dist/bundle.js"
 import { createLocalCacheEngine } from "../shared/get-platform-config-with-cli-defaults"
 import { getIndex } from "../site/getIndex"
+import {
+  buildProjectEvalWorker,
+  PROJECT_EVAL_WORKER_PATH,
+} from "./build-project-eval-worker"
 import { createKicadPcmProxy } from "./kicad-pcm-proxy"
 
 const RUNFRAME_CACHE_PATH = "/api/cache"
-
-/**
- * Resolves the standalone runframe + eval bundle (`dist/browser.min.js`) shipped
- * by the `tscircuit` version installed in the user's project, so `tsci dev` uses
- * the version pinned in the project (like `bun run dev` would). Returns undefined
- * when it isn't installed locally, in which case the caller falls back to the
- * runframe bundled into the CLI.
- */
-const resolveLocalTscircuitStandalonePath = (
-  projectDir?: string,
-): string | undefined => {
-  if (!projectDir) return undefined
-  try {
-    const projectRequire = createRequire(path.join(projectDir, "package.json"))
-    const browserBundlePath = projectRequire.resolve("tscircuit/browser")
-    if (fs.existsSync(browserBundlePath)) return browserBundlePath
-  } catch {
-    // `tscircuit` isn't installed locally; fall back to the CLI-bundled runframe
-  }
-  return undefined
-}
 
 const readRequestBody = async (req: http.IncomingMessage): Promise<string> => {
   const chunks: Buffer[] = []
@@ -59,6 +41,11 @@ export const createHttpServer = async ({
   projectDir?: string
   entryFile?: string
 }) => {
+  const explicitStandalonePath = process.env.RUNFRAME_STANDALONE_FILE_PATH
+  const projectBrowserRuntime =
+    !explicitStandalonePath && projectDir
+      ? await buildProjectEvalWorker(projectDir)
+      : undefined
   const fileServerHandler = getNodeHandler(winterspecBundle as any, {})
   const localCacheEngine = projectDir
     ? createLocalCacheEngine(path.join(projectDir, ".tscircuit", "cache"))
@@ -179,24 +166,14 @@ export const createHttpServer = async ({
     }
 
     if (url.pathname === "/standalone.min.js") {
-      const explicitStandalonePath = process.env.RUNFRAME_STANDALONE_FILE_PATH
-
       if (!explicitStandalonePath) {
-        // Prefer the locally installed tscircuit version's bundle so `tsci dev`
-        // automatically uses the version pinned in the project when available.
-        const localStandalonePath =
-          resolveLocalTscircuitStandalonePath(projectDir)
-        if (localStandalonePath) {
-          try {
-            const content = fs.readFileSync(localStandalonePath, "utf8")
-            res.writeHead(200, {
-              "Content-Type": "application/javascript; charset=utf-8",
-            })
-            res.end(content)
-            return
-          } catch {
-            // fall back to the global tscircuit bundle, then the CLI
-          }
+        if (projectBrowserRuntime) {
+          res.writeHead(200, {
+            "Content-Type": "application/javascript; charset=utf-8",
+            "Cache-Control": "no-store",
+          })
+          res.end(projectBrowserRuntime.standaloneBundle)
+          return
         }
 
         // Otherwise use the bundle from the globally installed tscircuit (the one
@@ -240,6 +217,20 @@ export const createHttpServer = async ({
         Location: `https://cdn.jsdelivr.net/npm/@tscircuit/runframe@${{ ...pkg.devDependencies }["@tscircuit/runframe"].replace(/^[^0-9]+/, "")}/dist/standalone.min.js`,
       })
       res.end()
+      return
+    }
+
+    if (url.pathname === PROJECT_EVAL_WORKER_PATH) {
+      if (!projectBrowserRuntime) {
+        res.writeHead(404)
+        res.end("Project eval worker not available")
+        return
+      }
+      res.writeHead(200, {
+        "Content-Type": "application/javascript; charset=utf-8",
+        "Cache-Control": "no-store",
+      })
+      res.end(projectBrowserRuntime.workerBundle)
       return
     }
 
