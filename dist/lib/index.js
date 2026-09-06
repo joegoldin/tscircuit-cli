@@ -37,7 +37,7 @@ var require_dist = __commonJS((exports2, module2) => {
   var __getOwnPropNames22 = Object.getOwnPropertyNames;
   var __getProtoOf22 = Object.getPrototypeOf;
   var __hasOwnProp22 = Object.prototype.hasOwnProperty;
-  var __commonJS2 = (cb, mod) => function __require() {
+  var __commonJS2 = (cb, mod) => function __require2() {
     return mod || (0, cb[__getOwnPropNames22(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
   var __export22 = (target, all) => {
@@ -33509,7 +33509,7 @@ var require_dist3 = __commonJS((exports2, module2) => {
   var __getOwnPropNames3 = Object.getOwnPropertyNames;
   var __getProtoOf3 = Object.getPrototypeOf;
   var __hasOwnProp3 = Object.prototype.hasOwnProperty;
-  var __commonJS2 = (cb, mod) => function __require() {
+  var __commonJS2 = (cb, mod) => function __require2() {
     return mod || (0, cb[__getOwnPropNames3(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
   var __export3 = (target, all) => {
@@ -34267,7 +34267,7 @@ globstar while`, file, fr, pattern, pr, swallowee);
             }
           };
           for (let i = 0, c;i < pattern.length && (c = pattern.charAt(i)); i++) {
-            this.debug("%s	%s %s %j", pattern, i, re, c);
+            this.debug("%s\t%s %s %j", pattern, i, re, c);
             if (escaping) {
               if (c === "/") {
                 return false;
@@ -60399,7 +60399,7 @@ var require_clear = __commonJS((exports2, module2) => {
         if (it)
           o = it;
         var i = 0;
-        var F = function F() {};
+        var F = function F2() {};
         return { s: F, n: function n() {
           if (i >= o.length)
             return { done: true };
@@ -62731,7 +62731,7 @@ var require_dist6 = __commonJS((exports2, module2) => {
         if (it)
           o = it;
         var i = 0;
-        var F = function F() {};
+        var F = function F2() {};
         return { s: F, n: function n() {
           if (i >= o.length)
             return { done: true };
@@ -62834,7 +62834,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           }
           return question2.format ? yield question2.format(answer2, answers) : answer2;
         });
-        return function getFormattedAnswer(_x, _x2) {
+        return function getFormattedAnswer2(_x, _x2) {
           return _ref.apply(this, arguments);
         };
       }();
@@ -65787,7 +65787,7 @@ var package_default = {
     "circuit-json-to-connectivity-map": "^0.0.25",
     "circuit-json-to-fdm-component-box": "^0.0.2",
     "circuit-json-to-footprinter": "^0.0.54",
-    "circuit-json-to-gerber": "^0.0.97",
+    "circuit-json-to-gerber": "github:joegoldin/circuit-json-to-gerber#a55e2160e8b37206c7b4619a85fad36af8075abe",
     "circuit-json-to-kicad": "github:joegoldin/circuit-json-to-kicad#4dcc574e49ec997010985b2126fccad0cc491116",
     "circuit-json-to-pnp-csv": "github:joegoldin/circuit-json-to-pnp-csv#408306b401404c92988498f323a46365847e8ca3",
     "circuit-json-to-readable-netlist": "^0.0.15",

@@ -36,7 +36,7 @@ var require_dist = __commonJS((exports, module) => {
   var __getOwnPropNames2 = Object.getOwnPropertyNames;
   var __getProtoOf2 = Object.getPrototypeOf;
   var __hasOwnProp2 = Object.prototype.hasOwnProperty;
-  var __commonJS2 = (cb, mod) => function __require() {
+  var __commonJS2 = (cb, mod) => function __require2() {
     return mod || (0, cb[__getOwnPropNames2(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
   var __export2 = (target, all) => {
@@ -794,7 +794,7 @@ globstar while`, file, fr, pattern, pr, swallowee);
             }
           };
           for (let i = 0, c;i < pattern.length && (c = pattern.charAt(i)); i++) {
-            this.debug("%s	%s %s %j", pattern, i, re, c);
+            this.debug("%s\t%s %s %j", pattern, i, re, c);
             if (escaping) {
               if (c === "/") {
                 return false;

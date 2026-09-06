@@ -45,7 +45,7 @@
     "circuit-json-to-connectivity-map": "^0.0.25",
     "circuit-json-to-fdm-component-box": "^0.0.2",
     "circuit-json-to-footprinter": "^0.0.54",
-    "circuit-json-to-gerber": "^0.0.97",
+    "circuit-json-to-gerber": "github:joegoldin/circuit-json-to-gerber#a55e2160e8b37206c7b4619a85fad36af8075abe",
     "circuit-json-to-kicad": "github:joegoldin/circuit-json-to-kicad#4dcc574e49ec997010985b2126fccad0cc491116",
     "circuit-json-to-pnp-csv": "github:joegoldin/circuit-json-to-pnp-csv#408306b401404c92988498f323a46365847e8ca3",
     "circuit-json-to-readable-netlist": "^0.0.15",
