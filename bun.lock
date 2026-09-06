@@ -35,12 +35,12 @@
         "chokidar": "4.0.1",
         "circuit-json": "^0.0.464",
         "circuit-json-to-3d-png": "^0.0.6",
-        "circuit-json-to-bom-csv": "github:joegoldin/circuit-json-to-bom-csv#3117b4cb3071a3ce3e92958e1698a1dcc84e50f4",
+        "circuit-json-to-bom-csv": "github:joegoldin/circuit-json-to-bom-csv#82d32cca33599b18864d05885079f1ab534bc88d",
         "circuit-json-to-connectivity-map": "^0.0.25",
         "circuit-json-to-fdm-component-box": "^0.0.2",
         "circuit-json-to-footprinter": "^0.0.54",
         "circuit-json-to-gerber": "^0.0.97",
-        "circuit-json-to-kicad": "github:joegoldin/circuit-json-to-kicad#722f3d06552dac67333f9037d24991f3d8e6c890",
+        "circuit-json-to-kicad": "github:joegoldin/circuit-json-to-kicad#4dcc574e49ec997010985b2126fccad0cc491116",
         "circuit-json-to-pnp-csv": "github:joegoldin/circuit-json-to-pnp-csv#408306b401404c92988498f323a46365847e8ca3",
         "circuit-json-to-readable-netlist": "^0.0.15",
         "circuit-json-to-spice": "^0.0.45",
@@ -563,7 +563,7 @@
 
     "circuit-json-to-3d-png": ["circuit-json-to-3d-png@0.0.6", "", { "dependencies": { "@resvg/resvg-js": "^2.6.2", "poppygl": "^0.0.24" }, "peerDependencies": { "circuit-json": "*", "circuit-json-to-gltf": "*", "typescript": "^5" } }, "sha512-zZSnhIjZrJGG9ITWvSlWRKSY/dksIPkggZQyaVaHv1No5o8uG0l0HsZlcwx+vtoN1bIdm8GVp8dSRKIza63JOA=="],
 
-    "circuit-json-to-bom-csv": ["circuit-json-to-bom-csv@github:joegoldin/circuit-json-to-bom-csv#3117b4c", { "dependencies": { "format-si-prefix": "^0.3.2", "papaparse": "^5.4.1" }, "peerDependencies": { "typescript": "^5.0.0" } }, "joegoldin-circuit-json-to-bom-csv-3117b4c"],
+    "circuit-json-to-bom-csv": ["circuit-json-to-bom-csv@github:joegoldin/circuit-json-to-bom-csv#82d32cc", { "dependencies": { "format-si-prefix": "^0.3.2", "papaparse": "^5.4.1" }, "peerDependencies": { "typescript": "^5.0.0" } }, "joegoldin-circuit-json-to-bom-csv-82d32cc"],
 
     "circuit-json-to-bpc": ["circuit-json-to-bpc@0.0.13", "", { "peerDependencies": { "bpc-graph": "*", "circuit-json": "*", "typescript": "^5" } }, "sha512-3wSMtPa6tJkiBQN4tsm7f0Mb7Wp90X2c8dNbULoDVE4mGGoFqP1DXqBlyvvZZl+4SjqznzQQ0EioLe2SCQTOcg=="],
 
@@ -577,7 +577,7 @@
 
     "circuit-json-to-gltf": ["circuit-json-to-gltf@0.0.106", "", { "dependencies": { "@jscad/modeling": "^2.12.6", "earcut": "^3.0.2", "jscad-electronics": "^0.0.135", "jscad-to-gltf": "^0.0.5", "occt-import-js": "^0.0.23" }, "peerDependencies": { "@resvg/resvg-js": "2", "@resvg/resvg-wasm": "2", "@tscircuit/circuit-json-util": "*", "circuit-json": "*", "circuit-to-svg": "*", "typescript": "^5" }, "optionalPeers": ["@resvg/resvg-js", "@resvg/resvg-wasm"] }, "sha512-U59vURQ704QTN+PxTHn8t4c0NGgdSSrNiTNYjnsXDrxK0rhtacchd9QBD4iz6x5n15QSlhcds4dyC1AVAbB9GA=="],
 
-    "circuit-json-to-kicad": ["circuit-json-to-kicad@github:joegoldin/circuit-json-to-kicad#722f3d0", { "peerDependencies": { "typescript": "^5" } }, "joegoldin-circuit-json-to-kicad-722f3d0"],
+    "circuit-json-to-kicad": ["circuit-json-to-kicad@github:joegoldin/circuit-json-to-kicad#4dcc574", { "peerDependencies": { "typescript": "^5" } }, "joegoldin-circuit-json-to-kicad-4dcc574"],
 
     "circuit-json-to-pnp-csv": ["circuit-json-to-pnp-csv@github:joegoldin/circuit-json-to-pnp-csv#408306b", { "dependencies": { "papaparse": "^5.4.1" }, "peerDependencies": { "@tscircuit/soup-util": "*", "typescript": "^5.0.0" } }, "joegoldin-circuit-json-to-pnp-csv-408306b"],
 

@@ -17,6 +17,7 @@ test("normal Gerber ZIP excludes DNP components from both assembly CSVs", async 
       { type: "pcb_component", pcb_component_id: `component_${index}`,
         source_component_id: `source_${index}`, center: { x: index, y: 2 },
         width: 1, height: 0.5, layer: "top", rotation: 90,
+        metadata: { kicad_footprint: { footprintName: "R_0402_1005Metric" } },
         obstructs_within_bounds: true, do_not_place: doNotPlace,
         pin1_location: "leftside_top",
         supplier_pin1_location_map: { jlcpcb: "bottomside_left" } },
@@ -34,5 +35,6 @@ test("normal Gerber ZIP excludes DNP components from both assembly CSVs", async 
   const bom = await zip.file("bom.csv")!.async("string")
   const pnp = await zip.file("pick_and_place.csv")!.async("string")
   expect(bom.split(/\r?\n/).slice(1).map(row => row.split(",")[0])).toEqual(["R1"])
+  expect(bom).toContain("R_0402_1005Metric")
   expect(pnp).toBe("Designator,Mid X,Mid Y,Layer,Rotation\r\nR1,0.000,2.000,top,0")
 })

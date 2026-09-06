@@ -65783,12 +65783,12 @@ var package_default = {
     chokidar: "4.0.1",
     "circuit-json": "^0.0.464",
     "circuit-json-to-3d-png": "^0.0.6",
-    "circuit-json-to-bom-csv": "github:joegoldin/circuit-json-to-bom-csv#3117b4cb3071a3ce3e92958e1698a1dcc84e50f4",
+    "circuit-json-to-bom-csv": "github:joegoldin/circuit-json-to-bom-csv#82d32cca33599b18864d05885079f1ab534bc88d",
     "circuit-json-to-connectivity-map": "^0.0.25",
     "circuit-json-to-fdm-component-box": "^0.0.2",
     "circuit-json-to-footprinter": "^0.0.54",
     "circuit-json-to-gerber": "^0.0.97",
-    "circuit-json-to-kicad": "github:joegoldin/circuit-json-to-kicad#722f3d06552dac67333f9037d24991f3d8e6c890",
+    "circuit-json-to-kicad": "github:joegoldin/circuit-json-to-kicad#4dcc574e49ec997010985b2126fccad0cc491116",
     "circuit-json-to-pnp-csv": "github:joegoldin/circuit-json-to-pnp-csv#408306b401404c92988498f323a46365847e8ca3",
     "circuit-json-to-readable-netlist": "^0.0.15",
     "circuit-json-to-spice": "^0.0.45",
@@ -68563,7 +68563,7 @@ import {
 import { Paper, Uuid as Uuid4 } from "kicadts";
 import { KicadPcb as KicadPcb2 } from "kicadts";
 import { cju as cju2 } from "@tscircuit/circuit-json-util";
-import { compose as compose6, translate as translate6, scale as scale4 } from "transformation-matrix";
+import { compose as compose7, translate as translate7, scale as scale5 } from "transformation-matrix";
 
 // node_modules/earcut/src/earcut.js
 var steiners = new Set;
@@ -69146,7 +69146,7 @@ import {
   TextEffects as TextEffects8,
   TextEffectsFont as TextEffectsFont8
 } from "kicadts";
-import { applyToPoint as applyToPoint17 } from "transformation-matrix";
+import { applyToPoint as applyToPoint18 } from "transformation-matrix";
 import {
   Property as Property2,
   TextEffects as TextEffects9,
@@ -69186,22 +69186,29 @@ import {
   PadNet
 } from "kicadts";
 import {
+  applyToPoint as applyToPoint15,
+  compose as compose6,
+  scale as scale4,
+  translate as translate6
+} from "transformation-matrix";
+import {
   applyToPoint as applyToPoint14,
   compose as compose5,
-  translate as translate5,
+  rotate as rotate6,
   scale as scale3,
-  rotate as rotate6
+  translate as translate5
 } from "transformation-matrix";
 import { FootprintPad as FootprintPad2, PadDrill, PadNet as PadNet2 } from "kicadts";
-import { applyToPoint as applyToPoint15, rotate as rotate7, identity as identity4 } from "transformation-matrix";
+import { applyToPoint as applyToPoint16, rotate as rotate7, identity as identity4 } from "transformation-matrix";
 import { FootprintPad as FootprintPad3, PadDrill as PadDrill2 } from "kicadts";
-import { applyToPoint as applyToPoint16, rotate as rotate8, identity as identity5 } from "transformation-matrix";
+import { applyToPoint as applyToPoint17, rotate as rotate8, identity as identity5 } from "transformation-matrix";
+import { FootprintPad as FootprintPad4 } from "kicadts";
 import { Segment, SegmentNet } from "kicadts";
-import { applyToPoint as applyToPoint18 } from "transformation-matrix";
-import { Via, ViaNet } from "kicadts";
 import { applyToPoint as applyToPoint19 } from "transformation-matrix";
-import { Footprint as Footprint4 } from "kicadts";
+import { Via, ViaNet } from "kicadts";
 import { applyToPoint as applyToPoint20 } from "transformation-matrix";
+import { Footprint as Footprint4, FootprintAttr as FootprintAttr3 } from "kicadts";
+import { applyToPoint as applyToPoint21 } from "transformation-matrix";
 import { GrCircle, GrLine, GrPoly } from "kicadts";
 import {
   At as At3,
@@ -69210,8 +69217,8 @@ import {
   TextEffectsFont as TextEffectsFont12,
   TextEffectsJustify as TextEffectsJustify4
 } from "kicadts";
-import { applyToPoint as applyToPoint21 } from "transformation-matrix";
-import { applyToPoint as applyToPoint23, rotate as rotate9 } from "transformation-matrix";
+import { applyToPoint as applyToPoint22 } from "transformation-matrix";
+import { applyToPoint as applyToPoint24, rotate as rotate9 } from "transformation-matrix";
 import {
   GrText as GrText2,
   TextEffects as TextEffects13,
@@ -69219,9 +69226,9 @@ import {
   TextEffectsJustify as TextEffectsJustify5,
   At as At4
 } from "kicadts";
-import { applyToPoint as applyToPoint22 } from "transformation-matrix";
+import { applyToPoint as applyToPoint23 } from "transformation-matrix";
 import { Pts as Pts7, Xy as Xy7, Zone as Zone2, ZoneHatch as ZoneHatch2, ZoneKeepout, ZonePolygon as ZonePolygon2 } from "kicadts";
-import { applyToPoint as applyToPoint24 } from "transformation-matrix";
+import { applyToPoint as applyToPoint25 } from "transformation-matrix";
 import { cju as cju3 } from "@tscircuit/circuit-json-util";
 import { cju as cju4 } from "@tscircuit/circuit-json-util";
 import { getFullConnectivityMapFromCircuitJson } from "circuit-json-to-connectivity-map";
@@ -69734,7 +69741,7 @@ function createPolylineFromPoints({
 function createCircleFromPrimitive({
   primitive,
   transform,
-  scale: scale5
+  scale: scale6
 }) {
   const circle = new SymbolCircle;
   const scaledPos = applyToPoint2(transform, {
@@ -69743,7 +69750,7 @@ function createCircleFromPrimitive({
   });
   const c = circle;
   c._sxCenter = new SymbolCircleCenter(scaledPos.x, scaledPos.y);
-  c._sxRadius = new SymbolCircleRadius(primitive.radius * scale5);
+  c._sxRadius = new SymbolCircleRadius(primitive.radius * scale6);
   const stroke = new Stroke3;
   stroke.width = 0.254;
   stroke.type = "default";
@@ -69762,13 +69769,13 @@ function createCircleFromPrimitive({
 function createTextFromPrimitive({
   schText,
   transform,
-  scale: scale5
+  scale: scale6
 }) {
   const symbolText = new SymbolText;
   const scaledPos = applyToPoint3(transform, { x: schText.x, y: schText.y });
   symbolText.value = schText.text;
   symbolText.at = [scaledPos.x, scaledPos.y, 0];
-  const scaledFontSize = schText.fontSize * scale5;
+  const scaledFontSize = schText.fontSize * scale6;
   const font = new TextEffectsFont2;
   font.size = { height: scaledFontSize, width: scaledFontSize };
   symbolText.effects = new TextEffects2({ font });
@@ -72301,7 +72308,7 @@ function createFpTextFromCircuitJson({
     bottom: "B.SilkS"
   };
   const kicadLayer = layerMap[textElement.layer] || textElement.layer || "F.SilkS";
-  const fontSize = (textElement.font_size || 1) / 1.5;
+  const fontSize = textElement.font_size ?? 1;
   const font = new TextEffectsFont10;
   font.size = { width: fontSize, height: fontSize };
   const textEffects = new TextEffects10({
@@ -72429,11 +72436,18 @@ function create3DModelsFromCadComponent(cadComponent, componentCenter, options) 
     };
   }
   if (cadComponent.model_unit_to_mm_scale_factor) {
-    const scale5 = cadComponent.model_unit_to_mm_scale_factor;
-    model.scale = { x: scale5, y: scale5, z: scale5 };
+    const scale6 = cadComponent.model_unit_to_mm_scale_factor;
+    model.scale = { x: scale6, y: scale6, z: scale6 };
   }
   models.push(model);
   return models;
+}
+function getFootprintLocalPcbPosition({
+  point,
+  componentCenter,
+  componentRotation
+}) {
+  return applyToPoint14(compose5(componentRotation !== 0 ? rotate6(componentRotation * Math.PI / 180) : { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }, scale3(1, -1), translate5(-componentCenter.x, -componentCenter.y)), point);
 }
 function createSmdPadFromCircuitJson({
   pcbPad,
@@ -72441,7 +72455,8 @@ function createSmdPadFromCircuitJson({
   padNumber,
   componentRotation = 0,
   netInfo,
-  componentId
+  componentId,
+  includeAutomaticSolderPaste = true
 }) {
   let padX;
   let padY;
@@ -72455,10 +72470,10 @@ function createSmdPadFromCircuitJson({
   } else {
     throw new Error("Pad must have either x/y coordinates or points array");
   }
-  const cj2kicadMatrix = compose5(componentRotation !== 0 ? rotate6(componentRotation * Math.PI / 180) : { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }, scale3(1, -1), translate5(-componentCenter.x, -componentCenter.y));
-  const rotatedPos = applyToPoint14(cj2kicadMatrix, {
-    x: padX,
-    y: padY
+  const rotatedPos = getFootprintLocalPcbPosition({
+    point: { x: padX, y: padY },
+    componentCenter,
+    componentRotation
   });
   const layerMap = {
     top: "F.Cu",
@@ -72479,9 +72494,9 @@ function createSmdPadFromCircuitJson({
     ];
   } else if (pcbPad.shape === "polygon" && "points" in pcbPad) {
     const points = pcbPad.points;
-    const pointTransformMatrix = compose5(scale3(1, -1), translate5(-padX, -padY));
+    const pointTransformMatrix = compose6(scale4(1, -1), translate6(-padX, -padY));
     const relativePoints = points.map((p) => {
-      const transformed = applyToPoint14(pointTransformMatrix, { x: p.x, y: p.y });
+      const transformed = applyToPoint15(pointTransformMatrix, { x: p.x, y: p.y });
       return new Xy6(transformed.x, transformed.y);
     });
     const grPoly = new PadPrimitiveGrPoly;
@@ -72530,11 +72545,11 @@ function createSmdPadFromCircuitJson({
     shape: padShape,
     at: [rotatedPos.x, rotatedPos.y, rotation],
     size: padSize,
-    layers: [
-      `${padLayer}`,
+    layers: pcbPad.is_covered_with_solder_mask === true ? [padLayer] : includeAutomaticSolderPaste ? [
+      padLayer,
       `${padLayer === "F.Cu" ? "F" : "B"}.Paste`,
       `${padLayer === "F.Cu" ? "F" : "B"}.Mask`
-    ],
+    ] : [padLayer, `${padLayer === "F.Cu" ? "F" : "B"}.Mask`],
     solderMaskMargin: pcbPad.soldermask_margin,
     roundrectRatio: roundrect_rratio,
     uuid: generateDeterministicUuid(padData)
@@ -72573,7 +72588,8 @@ function convertSmdPads({
       padNumber: resolvedPadNumber,
       componentRotation,
       netInfo,
-      componentId
+      componentId,
+      includeAutomaticSolderPaste: !ctx.pcbSolderPasteIndex?.byPcbSmtPadId.has(pcbPad.pcb_smtpad_id)
     });
     pads.push(pad);
     padNumber++;
@@ -72594,7 +72610,7 @@ function createThruHolePadFromCircuitJson({
   const relativeX = platedHole.x - componentCenter.x;
   const relativeY = -(platedHole.y - componentCenter.y);
   const rotationMatrix = componentRotation !== 0 ? rotate7(componentRotation * Math.PI / 180) : identity4();
-  const rotatedPos = applyToPoint15(rotationMatrix, {
+  const rotatedPos = applyToPoint16(rotationMatrix, {
     x: relativeX,
     y: relativeY
   });
@@ -72610,7 +72626,7 @@ function createThruHolePadFromCircuitJson({
       y: platedHole.hole_offset_y ?? 0
     };
     if (rawOffset.x !== 0 || rawOffset.y !== 0) {
-      const rotatedOffset = applyToPoint15(rotationMatrix, {
+      const rotatedOffset = applyToPoint16(rotationMatrix, {
         x: -rawOffset.x,
         y: rawOffset.y
       });
@@ -72674,7 +72690,7 @@ function createThruHolePadFromCircuitJson({
     at: [rotatedPos.x, rotatedPos.y, rotation],
     size: padSize,
     drill,
-    layers: ["*.Cu", "*.Mask"],
+    layers: platedHole.is_covered_with_solder_mask === true ? ["*.Cu"] : ["*.Cu", "*.Mask"],
     removeUnusedLayers: false,
     uuid: generateDeterministicUuid(padData)
   });
@@ -72726,7 +72742,7 @@ function createNpthPadFromCircuitJson({
   const relativeX = pcbHole.x - componentCenter.x;
   const relativeY = -(pcbHole.y - componentCenter.y);
   const rotationMatrix = componentRotation !== 0 ? rotate8(componentRotation * Math.PI / 180) : identity5();
-  const rotatedPos = applyToPoint16(rotationMatrix, {
+  const rotatedPos = applyToPoint17(rotationMatrix, {
     x: relativeX,
     y: relativeY
   });
@@ -72795,6 +72811,91 @@ function convertNpthHoles(params2) {
   }
   return pads;
 }
+function throwInvalidPaste(solderPaste, detail) {
+  throw new Error(`Invalid pcb_solder_paste "${solderPaste.pcb_solder_paste_id}": ${detail}`);
+}
+function requirePositiveDimension(solderPaste, name, value) {
+  if (!Number.isFinite(value) || value <= 0) {
+    throwInvalidPaste(solderPaste, `${name} must be a positive finite number`);
+  }
+  return value;
+}
+function normalizeDegrees(degrees) {
+  return (degrees % 360 + 360) % 360;
+}
+function createSolderPastePadFromCircuitJson({
+  solderPaste,
+  componentCenter,
+  componentRotation = 0
+}) {
+  if (!Number.isFinite(solderPaste.x) || !Number.isFinite(solderPaste.y)) {
+    throwInvalidPaste(solderPaste, "x and y must be finite numbers");
+  }
+  const pasteLayer = solderPaste.layer === "top" ? "F.Paste" : solderPaste.layer === "bottom" ? "B.Paste" : throwInvalidPaste(solderPaste, `layer "${solderPaste.layer}" has no KiCad solder-paste layer`);
+  const position = getFootprintLocalPcbPosition({
+    point: { x: solderPaste.x, y: solderPaste.y },
+    componentCenter,
+    componentRotation
+  });
+  let shape;
+  let size;
+  let rotation = 0;
+  let roundrectRatio;
+  if (solderPaste.shape === "circle") {
+    const diameter = requirePositiveDimension(solderPaste, "radius", solderPaste.radius) * 2;
+    shape = "circle";
+    size = [diameter, diameter];
+  } else if (solderPaste.shape === "rect") {
+    shape = "rect";
+    size = [
+      requirePositiveDimension(solderPaste, "width", solderPaste.width),
+      requirePositiveDimension(solderPaste, "height", solderPaste.height)
+    ];
+    rotation = normalizeDegrees(-componentRotation);
+  } else if (solderPaste.shape === "rotated_rect") {
+    if (!Number.isFinite(solderPaste.ccw_rotation)) {
+      throwInvalidPaste(solderPaste, "ccw_rotation must be finite");
+    }
+    shape = "rect";
+    size = [
+      requirePositiveDimension(solderPaste, "width", solderPaste.width),
+      requirePositiveDimension(solderPaste, "height", solderPaste.height)
+    ];
+    rotation = normalizeDegrees(solderPaste.ccw_rotation - componentRotation);
+  } else if (solderPaste.shape === "pill") {
+    const width = requirePositiveDimension(solderPaste, "width", solderPaste.width);
+    const height = requirePositiveDimension(solderPaste, "height", solderPaste.height);
+    const maximumRadius = Math.min(width, height) / 2;
+    const radius = "radius" in solderPaste && solderPaste.radius !== undefined ? solderPaste.radius : maximumRadius;
+    requirePositiveDimension(solderPaste, "radius", radius);
+    if (radius > maximumRadius) {
+      throwInvalidPaste(solderPaste, `radius must not exceed ${maximumRadius}`);
+    }
+    shape = "roundrect";
+    size = [width, height];
+    rotation = normalizeDegrees(-componentRotation);
+    roundrectRatio = radius / Math.min(width, height);
+  } else if (solderPaste.shape === "oval") {
+    shape = "oval";
+    size = [
+      requirePositiveDimension(solderPaste, "width", solderPaste.width),
+      requirePositiveDimension(solderPaste, "height", solderPaste.height)
+    ];
+    rotation = normalizeDegrees(-componentRotation);
+  } else {
+    return throwInvalidPaste(solderPaste, "shape is unsupported");
+  }
+  return new FootprintPad4({
+    number: "",
+    padType: "smd",
+    shape,
+    at: [position.x, position.y, rotation],
+    size,
+    layers: [pasteLayer],
+    roundrectRatio,
+    uuid: generateDeterministicUuid(`solder_paste:${solderPaste.pcb_solder_paste_id}`)
+  });
+}
 var AddFootprintsStage = class extends ConverterStage {
   componentsProcessed = 0;
   pcbComponents = [];
@@ -72841,7 +72942,7 @@ var AddFootprintsStage = class extends ConverterStage {
     const sourceComponent = component.source_component_id ? this.ctx.db.source_component.get(component.source_component_id) : null;
     const cadComponent = this.getCadComponentForPcbComponent(component.pcb_component_id);
     const footprintName = sourceComponent ? getKicadCompatibleComponentName(sourceComponent, cadComponent) : "Unknown";
-    const transformedPos = applyToPoint17(c2kMatPcb, {
+    const transformedPos = applyToPoint18(c2kMatPcb, {
       x: component.center.x,
       y: component.center.y
     });
@@ -72886,6 +72987,12 @@ var AddFootprintsStage = class extends ConverterStage {
       getNetInfo
     }, this.ctx);
     fpPads.push(...smdPads);
+    const componentSolderPaste = this.ctx.pcbSolderPasteIndex?.byPcbComponentId.get(component.pcb_component_id) ?? [];
+    fpPads.push(...componentSolderPaste.map((solderPaste) => createSolderPastePadFromCircuitJson({
+      solderPaste,
+      componentCenter: component.center,
+      componentRotation: component.rotation || 0
+    })));
     const pcbPlatedHoles = this.ctx.db.pcb_plated_hole?.list().filter((hole) => hole.pcb_component_id === component.pcb_component_id) || [];
     const { pads: thruHolePads } = convertPlatedHoles({
       platedHoles: pcbPlatedHoles,
@@ -73053,8 +73160,8 @@ var AddTracesStage = class extends ConverterStage {
       if (!startPosition || !endPosition) {
         throw new Error(`Unable to convert pcb_trace route segment ${trace.pcb_trace_id ?? this.tracesProcessed}:${i} to KiCad segment`);
       }
-      const transformedStart = applyToPoint18(c2kMatPcb, startPosition);
-      const transformedEnd = applyToPoint18(c2kMatPcb, endPosition);
+      const transformedStart = applyToPoint19(c2kMatPcb, startPosition);
+      const transformedEnd = applyToPoint19(c2kMatPcb, endPosition);
       if (transformedStart.x === transformedEnd.x && transformedStart.y === transformedEnd.y) {
         continue;
       }
@@ -73157,7 +73264,7 @@ var AddViasStage = class extends ConverterStage {
       this.finished = true;
       return;
     }
-    const transformedPos = applyToPoint19(c2kMatPcb, {
+    const transformedPos = applyToPoint20(c2kMatPcb, {
       x: via.x,
       y: via.y
     });
@@ -73233,7 +73340,8 @@ var AddStandalonePcbElements = class extends ConverterStage {
     this.unprocessedElements = [
       ...this.ctx.db.pcb_hole.list().filter((hole) => !hole.pcb_component_id),
       ...this.ctx.db.pcb_plated_hole.list().filter((hole) => !hole.pcb_component_id),
-      ...this.ctx.db.pcb_smtpad.list().filter((pad) => !pad.pcb_component_id)
+      ...this.ctx.db.pcb_smtpad.list().filter((pad) => !pad.pcb_component_id),
+      ...this.ctx.pcbSolderPasteIndex?.unlinkedWithoutOwner ?? []
     ];
   }
   _step() {
@@ -73253,20 +73361,50 @@ var AddStandalonePcbElements = class extends ConverterStage {
       const pcbPad = elm;
       const padCenter = this.getPcbSmtPadCenter(pcbPad);
       const footprintSeed = `standalone_smtpad:${pcbPad.pcb_smtpad_id}:${padCenter.x},${padCenter.y}`;
-      const kicadPos = applyToPoint20(c2kMatPcb, padCenter);
+      const kicadPos = applyToPoint21(c2kMatPcb, padCenter);
       const footprint = new Footprint4({
         libraryLink: this.getSmtPadLibraryLink(pcbPad),
         layer: "F.Cu",
         at: [kicadPos.x, kicadPos.y, 0],
         uuid: generateDeterministicUuid(footprintSeed)
       });
+      const explicitSolderPaste = this.ctx.pcbSolderPasteIndex?.byPcbSmtPadId.get(pcbPad.pcb_smtpad_id) ?? [];
       footprint.fpPads = [
         createSmdPadFromCircuitJson({
           pcbPad,
           componentCenter: padCenter,
           padNumber: 1,
           componentRotation: 0,
-          componentId: pcbPad.pcb_smtpad_id
+          componentId: pcbPad.pcb_smtpad_id,
+          includeAutomaticSolderPaste: explicitSolderPaste.length === 0
+        }),
+        ...explicitSolderPaste.map((solderPaste) => createSolderPastePadFromCircuitJson({
+          solderPaste,
+          componentCenter: padCenter
+        }))
+      ];
+      const footprints = kicadPcb.footprints;
+      footprints.push(footprint);
+      kicadPcb.footprints = footprints;
+    } else if (elm.type === "pcb_solder_paste") {
+      const solderPaste = elm;
+      const center = { x: solderPaste.x, y: solderPaste.y };
+      const kicadPos = applyToPoint21(c2kMatPcb, center);
+      const footprint = new Footprint4({
+        libraryLink: "tscircuit:standalone_solder_paste",
+        layer: "F.Cu",
+        at: [kicadPos.x, kicadPos.y, 0],
+        uuid: generateDeterministicUuid(`standalone_solder_paste:${solderPaste.pcb_solder_paste_id}`)
+      });
+      const footprintAttr = new FootprintAttr3;
+      footprintAttr.type = "smd";
+      footprintAttr.excludeFromBom = true;
+      footprintAttr.excludeFromPosFiles = true;
+      footprint.attr = footprintAttr;
+      footprint.fpPads = [
+        createSolderPastePadFromCircuitJson({
+          solderPaste,
+          componentCenter: center
         })
       ];
       const footprints = kicadPcb.footprints;
@@ -73275,7 +73413,7 @@ var AddStandalonePcbElements = class extends ConverterStage {
     } else if (elm.type === "pcb_hole") {
       const hole = elm;
       const footprintSeed = `standalone_hole:${hole.pcb_hole_id}:${hole.x},${hole.y}`;
-      const kicadPos = applyToPoint20(c2kMatPcb, { x: hole.x, y: hole.y });
+      const kicadPos = applyToPoint21(c2kMatPcb, { x: hole.x, y: hole.y });
       const libraryLink = this.getHoleLibraryLink(hole);
       const footprint = new Footprint4({
         libraryLink,
@@ -73298,7 +73436,7 @@ var AddStandalonePcbElements = class extends ConverterStage {
     } else if (elm.type === "pcb_plated_hole") {
       const hole = elm;
       const footprintSeed = `standalone_plated_hole:${hole.pcb_plated_hole_id}:${hole.x},${hole.y}`;
-      const kicadPos = applyToPoint20(c2kMatPcb, { x: hole.x, y: hole.y });
+      const kicadPos = applyToPoint21(c2kMatPcb, { x: hole.x, y: hole.y });
       const libraryLink = this.getPlatedHoleLibraryLink(hole);
       const footprint = new Footprint4({
         libraryLink,
@@ -73395,7 +73533,7 @@ function createFabricationNoteTextFromCircuitJson({
   if (!textElement.text || !textElement.anchor_position) {
     return null;
   }
-  const transformedPos = applyToPoint21(c2kMatPcb, {
+  const transformedPos = applyToPoint22(c2kMatPcb, {
     x: textElement.anchor_position.x,
     y: textElement.anchor_position.y
   });
@@ -73404,7 +73542,7 @@ function createFabricationNoteTextFromCircuitJson({
     bottom: "B.Fab"
   };
   const kicadLayer = layerMap[textElement.layer] || textElement.layer || "F.Fab";
-  const fontSize = (textElement.font_size || 1) / 1.5;
+  const fontSize = textElement.font_size ?? 1;
   const font = new TextEffectsFont12;
   font.size = { width: fontSize, height: fontSize };
   const justify = new TextEffectsJustify4;
@@ -73452,7 +73590,7 @@ function createGrTextFromCircuitJson({
   if (!textElement.text || !textElement.anchor_position) {
     return null;
   }
-  const transformedPos = applyToPoint22(c2kMatPcb, {
+  const transformedPos = applyToPoint23(c2kMatPcb, {
     x: textElement.anchor_position.x,
     y: textElement.anchor_position.y
   });
@@ -73461,7 +73599,7 @@ function createGrTextFromCircuitJson({
     bottom: "B.SilkS"
   };
   const kicadLayer = layerMap[textElement.layer] || textElement.layer || "F.SilkS";
-  const fontSize = (textElement.font_size || 1) / 1.5;
+  const fontSize = textElement.font_size ?? 1;
   const font = new TextEffectsFont13;
   font.size = { width: fontSize, height: fontSize };
   const justify = new TextEffectsJustify5;
@@ -73536,7 +73674,7 @@ var appendGraphicPoly = (kicadPcb, grPoly) => {
 var rotatePointAroundOrigin = (point, rotationDegrees = 0) => {
   if (!rotationDegrees)
     return point;
-  return applyToPoint23(rotate9(rotationDegrees * Math.PI / 180), point);
+  return applyToPoint24(rotate9(rotationDegrees * Math.PI / 180), point);
 };
 var getRectCutoutCorners = (cutout) => {
   const halfWidth = cutout.width / 2;
@@ -73573,11 +73711,11 @@ var AddGraphicsStage = class extends ConverterStage {
         const endPoint = path8.route[i + 1];
         if (!startPoint || !endPoint)
           continue;
-        const transformedStart = applyToPoint23(c2kMatPcb, {
+        const transformedStart = applyToPoint24(c2kMatPcb, {
           x: startPoint.x,
           y: startPoint.y
         });
-        const transformedEnd = applyToPoint23(c2kMatPcb, {
+        const transformedEnd = applyToPoint24(c2kMatPcb, {
           x: endPoint.x,
           y: endPoint.y
         });
@@ -73639,7 +73777,7 @@ var AddGraphicsStage = class extends ConverterStage {
           { x: board.center.x - halfWidth, y: board.center.y + halfHeight }
         ];
       }
-      const transformedCorners = corners.map((corner) => applyToPoint23(c2kMatPcb, corner));
+      const transformedCorners = corners.map((corner) => applyToPoint24(c2kMatPcb, corner));
       if (transformedCorners.length < 2) {
         this.finished = true;
         return;
@@ -73663,8 +73801,8 @@ var AddGraphicsStage = class extends ConverterStage {
     const pcbCutouts = this.ctx.db.pcb_cutout?.list() || [];
     for (const cutout of pcbCutouts) {
       if (cutout.shape === "circle") {
-        const transformedCenter = applyToPoint23(c2kMatPcb, cutout.center);
-        const transformedEnd = applyToPoint23(c2kMatPcb, {
+        const transformedCenter = applyToPoint24(c2kMatPcb, cutout.center);
+        const transformedEnd = applyToPoint24(c2kMatPcb, {
           x: cutout.center.x + cutout.radius,
           y: cutout.center.y
         });
@@ -73679,7 +73817,7 @@ var AddGraphicsStage = class extends ConverterStage {
         if (corners.length < 3)
           continue;
         appendGraphicPoly(kicadPcb, new GrPoly({
-          points: corners.map((point) => applyToPoint23(c2kMatPcb, point)),
+          points: corners.map((point) => applyToPoint24(c2kMatPcb, point)),
           layer: "Edge.Cuts",
           width: EDGE_CUTS_WIDTH,
           fill: false
@@ -73689,7 +73827,7 @@ var AddGraphicsStage = class extends ConverterStage {
         if (corners.length < 3)
           continue;
         appendGraphicPoly(kicadPcb, new GrPoly({
-          points: corners.map((point) => applyToPoint23(c2kMatPcb, point)),
+          points: corners.map((point) => applyToPoint24(c2kMatPcb, point)),
           layer: "Edge.Cuts",
           width: EDGE_CUTS_WIDTH,
           fill: false
@@ -73702,8 +73840,8 @@ var AddGraphicsStage = class extends ConverterStage {
           const endPoint = cutout.route[i + 1];
           if (!startPoint || !endPoint)
             continue;
-          const transformedStart = applyToPoint23(c2kMatPcb, startPoint);
-          const transformedEnd = applyToPoint23(c2kMatPcb, endPoint);
+          const transformedStart = applyToPoint24(c2kMatPcb, startPoint);
+          const transformedEnd = applyToPoint24(c2kMatPcb, endPoint);
           appendGraphicLine(kicadPcb, new GrLine({
             start: transformedStart,
             end: transformedEnd,
@@ -73745,7 +73883,7 @@ var AddKeepoutsStage = class extends ConverterStage {
           x: keepout.center.x - keepout.width / 2,
           y: keepout.center.y + keepout.height / 2
         }
-      ].map((point) => applyToPoint24(c2kMatPcb, point));
+      ].map((point) => applyToPoint25(c2kMatPcb, point));
       for (const sourceLayer of keepout.layers) {
         const layer = circuitJsonLayerToKicadLayer[sourceLayer];
         if (!layer)
@@ -73779,6 +73917,53 @@ var AddKeepoutsStage = class extends ConverterStage {
     return this.ctx.kicadPcb;
   }
 };
+function appendToIndex(index, id, solderPaste) {
+  const records = index.get(id);
+  if (records) {
+    records.push(solderPaste);
+  } else {
+    index.set(id, [solderPaste]);
+  }
+}
+function getPasteDescription(solderPaste) {
+  return `pcb_solder_paste "${solderPaste.pcb_solder_paste_id}"`;
+}
+function createPcbSolderPasteIndex(db) {
+  const index = {
+    byPcbSmtPadId: /* @__PURE__ */ new Map,
+    byPcbComponentId: /* @__PURE__ */ new Map,
+    unlinkedWithoutOwner: []
+  };
+  for (const solderPaste of db.pcb_solder_paste.list()) {
+    if (solderPaste.pcb_smtpad_id) {
+      const pcbSmtPad = db.pcb_smtpad.get(solderPaste.pcb_smtpad_id);
+      if (!pcbSmtPad) {
+        throw new Error(`${getPasteDescription(solderPaste)} references missing pcb_smtpad_id "${solderPaste.pcb_smtpad_id}"`);
+      }
+      const padComponentId = pcbSmtPad.pcb_component_id;
+      if (solderPaste.pcb_component_id !== undefined && solderPaste.pcb_component_id !== padComponentId) {
+        throw new Error(`${getPasteDescription(solderPaste)} has pcb_component_id "${solderPaste.pcb_component_id}" but its pcb_smtpad_id belongs to "${padComponentId ?? "no component"}"`);
+      }
+      appendToIndex(index.byPcbSmtPadId, solderPaste.pcb_smtpad_id, solderPaste);
+      if (padComponentId) {
+        if (!db.pcb_component.get(padComponentId)) {
+          throw new Error(`${getPasteDescription(solderPaste)} resolves to missing pcb_component_id "${padComponentId}"`);
+        }
+        appendToIndex(index.byPcbComponentId, padComponentId, solderPaste);
+      }
+      continue;
+    }
+    if (solderPaste.pcb_component_id) {
+      if (!db.pcb_component.get(solderPaste.pcb_component_id)) {
+        throw new Error(`${getPasteDescription(solderPaste)} references missing pcb_component_id "${solderPaste.pcb_component_id}"`);
+      }
+      appendToIndex(index.byPcbComponentId, solderPaste.pcb_component_id, solderPaste);
+      continue;
+    }
+    index.unlinkedWithoutOwner.push(solderPaste);
+  }
+  return index;
+}
 var CircuitJsonToKicadPcbConverter = class {
   ctx;
   pipeline;
@@ -73798,10 +73983,11 @@ var CircuitJsonToKicadPcbConverter = class {
         generator: "circuit-json-to-kicad",
         generatorVersion: "0.0.1"
       }),
-      c2kMatPcb: compose6(translate6(KICAD_PCB_CENTER_X, KICAD_PCB_CENTER_Y), scale4(CIRCUIT_JSON_TO_MM_SCALE, -CIRCUIT_JSON_TO_MM_SCALE)),
+      c2kMatPcb: compose7(translate7(KICAD_PCB_CENTER_X, KICAD_PCB_CENTER_Y), scale5(CIRCUIT_JSON_TO_MM_SCALE, -CIRCUIT_JSON_TO_MM_SCALE)),
       projectName: options?.projectName,
       pcbModel3dSourcePaths: []
     };
+    this.ctx.pcbSolderPasteIndex = createPcbSolderPasteIndex(this.ctx.db);
     this.pipeline = [
       new InitializePcbStage(circuitJson, this.ctx),
       new AddNetsStage(circuitJson, this.ctx),
